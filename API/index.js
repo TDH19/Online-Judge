@@ -3,16 +3,19 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { dot } from 'node:test/reporters';
 import userRouter from './routes/user.route.js';
+import authRouter from './routes/auth.route.js';
 
 dotenv.config();
 
-mongoose.connect(process.env.MONGO ).then(() => {
+mongoose.connect(process.env.MONGO).then(() => {
   console.log('Connected to MongoDB successfully!!');
 }).catch((err) => {
   console.error('Error connecting to MongoDB:', err);
 });
 
 const app = express();
+
+app.use(express.json()); // Middleware to parse JSON bodies
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000!!');
@@ -21,3 +24,6 @@ app.listen(3000, () => {
 
 // test route to check if server is running
 app.use('/user',userRouter);
+
+// auth route for user authentication
+app.use('/auth',authRouter);
