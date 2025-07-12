@@ -23,10 +23,10 @@ app.listen(3000, () => {
 });
 
 // test route to check if server is running
-app.use('/user',userRouter);
+app.use('/api/user',userRouter);
 
 // auth route for user authentication
-app.use('/auth',authRouter);
+app.use('/api/auth',authRouter);
 
 // Error handling middleware
 app.use((error,req,res,next) => {
