@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
     },
     avatar:{
       type: String,
-      default: "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+      default: "https://tse2.mm.bing.net/th/id/OIP.j11pt13ZectNBnErbzz1JAHaHa?pid=Api&P=0&h=180"
     },
   },
   { timestamps: true }

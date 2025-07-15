@@ -2,8 +2,13 @@ import React from "react";
 import { FaSearch } from "react-icons/fa";
 import { FaUserAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Header() {
+  // Access the current user from the Redux store
+  const currentUser = useSelector((state) => state.user);
+
+  // If currentUser is null, it means the user is not signed in
   return (
     <header className="bg-sky-950 shadow-md ">
       <div className="flex  justify-between items-center px-4 py-4 ">
@@ -41,9 +46,7 @@ export default function Header() {
             <li className="hover:text-sky-300">Sign In</li>
           </Link>
           <Link to="/profile">
-            <li className="flex items-center ">
-              <FaUserAlt className="text-sky-50 pl-[4px] mr-[20px] text-[22px] hover:text-sky-300" />
-            </li>
+            <FaUserAlt className="text-sky-50 pl-[4px] mr-[20px] text-[22px] hover:text-sky-300" />
           </Link>
         </ul>
       </div>

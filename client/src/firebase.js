@@ -6,11 +6,11 @@ import { initializeApp } from "firebase/app";
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: "online-judge-e724f.firebaseapp.com",
-  projectId: "online-judge-e724f",
-  storageBucket: "online-judge-e724f.firebasestorage.app",
-  messagingSenderId: "266191754873",
-  appId: "1:266191754873:web:808f57ab20fc466e2fe6a8"
+  authDomain: "online-judge-93e6e.firebaseapp.com",
+  projectId: "online-judge-93e6e",
+  storageBucket: "online-judge-93e6e.firebasestorage.app",
+  messagingSenderId: "840109604914",
+  appId: "1:840109604914:web:541b6f1d3592600f37bc2b"
 };
 
 // Initialize Firebase

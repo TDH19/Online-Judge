@@ -4,10 +4,12 @@ import OAuth from '../Components/OAuth.jsx';
 
 
 
+
 export default function SignUp() {
   const[formData, setFormData] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  
   const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({
@@ -58,6 +60,7 @@ export default function SignUp() {
         <button  disabled = {loading} className='bg-slate-700 p-2 rounded-lg text-sky-50 uppercase hover:opacity-95 disabled:opacity-80'>{loading ? 'Loading..' : 'Sign Up'}</button>
         <OAuth/>
       </form>
+      
       <div className='flex gap-1 mt-3 ml-12'>
         <p>Have an account?</p>
         <Link to={'/signin'}>
