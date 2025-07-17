@@ -24,7 +24,7 @@ export default function OAuth() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username : res.user.displayName, email: res.user.email, photo: res.user.photoURL }),
+                body: JSON.stringify({ username : result.user.displayName, email: result.user.email, photo: result.user.photoURL }),
             });
 
             const data = await res.json();
