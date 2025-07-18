@@ -6,6 +6,7 @@ import SignIn from "./Pages/SignIn";
 import SignUp from "./Pages/SignUp";
 import Header from "./Components/Header";
 import PrivateRoute from "./Components/PrivateRoute.jsx";
+import CreateProblem from "./Pages/Create-Problem.jsx";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
+          <Route path="/create-problem" element={<CreateProblem />} />
         </Route>
       </Routes>
     </BrowserRouter>
