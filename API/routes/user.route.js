@@ -10,6 +10,8 @@ router.post('/update/:id',verifyToken, updateUser);
 
 router.delete('/delete/:id',verifyToken, deleteUser);
 
+
+
 export default router;
 
 // This code defines a simple Express router for the user route.

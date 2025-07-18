@@ -4,7 +4,9 @@ import dotenv from 'dotenv';
 import { dot } from 'node:test/reporters';
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
+import problemRouter from './routes/problem.route.js';
 import cookieParser from 'cookie-parser';
+
 
 dotenv.config();
 
@@ -30,6 +32,9 @@ app.use('/api/user',userRouter);
 
 // auth route for user authentication
 app.use('/api/auth',authRouter);
+
+// problem route for problem related routes
+app.use('/api/problem',problemRouter);
 
 // Error handling middleware
 app.use((error,req,res,next) => {
