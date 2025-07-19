@@ -1,6 +1,7 @@
 import errorHandler from "../utils/error.js";
 import bcryptjs from "bcryptjs";
 import User from "../models/user.model.js";
+import Problem from "../models/problem.model.js";
 export const test = (req, res) => {
   res.json({
     message: "User route is working!",
@@ -45,4 +46,18 @@ export const deleteUser = async(req,res,next) => {
   } catch (error) {
     next(error);
   }
+};
+
+export const getUserProblems = async(req,res,next) => {
+  if(req.user.id === req.params.id){
+    try {
+      const problems = await Problem.find({userRef: req.params.id});
+      res.status(200).json(problems);
+    } catch (error) {
+      next(error);
+    }
+  }else{
+    return next(errorHandler(401,"You can only view your own problems!"));
+  }
+  
 };

@@ -1,4 +1,4 @@
-import { Problem } from "../models/problem.model.js";
+import  Problem  from "../models/problem.model.js";
 
 export const createProblem = async (req,res,next) => {
   try {
