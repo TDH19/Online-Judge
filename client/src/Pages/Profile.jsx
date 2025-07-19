@@ -140,6 +140,23 @@ export default function Profile() {
     }
   };
 
+  const handleProblemDelete = async (Problemid) => {
+    try {
+      const res = await fetch(`/api/problem/delete/${Problemid}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if(data.success === false){
+        console.log(data.message);
+        return;
+      }
+      setUserProblems((prev) => prev.filter((problem) => problem._id !== Problemid));
+      
+    }catch(error){
+      console.log(error.message);
+    }
+  }
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -248,7 +265,7 @@ export default function Profile() {
               <p>{problem.title}</p>
             </Link>
             <div className="flex flex-col gap-2 items-center">
-              <button className=" text-red-700  px-3  cursor-pointer hover:bg-red-700 hover:text-white">
+              <button onClick={() => handleProblemDelete(problem._id)} className=" text-red-700  px-3  cursor-pointer hover:bg-red-700 hover:text-white">
                 Delete
               </button>
               <button className=" text-grey-300  px-3  cursor-pointer hover:bg-green-500 hover:text-white">
