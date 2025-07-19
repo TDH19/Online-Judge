@@ -31,6 +31,8 @@ export default function Profile() {
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showProblemsError, setShowProblemsError] = useState(false);
+  const [userProblems, setUserProblems] = useState([]);
 
   useEffect(() => {
     if (file) {
@@ -123,6 +125,21 @@ export default function Profile() {
     }
   };
 
+  const handleShowProblems = async () => {
+    try {
+      setShowProblemsError(false);
+      const res = await fetch(`/api/user/user-problems/${currentUser._id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        setShowProblemsError(true);
+        return;
+      }
+      setUserProblems(data);
+    } catch (error) {
+      setShowProblemsError(true);
+    }
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -183,7 +200,12 @@ export default function Profile() {
         >
           {loading ? "Loading ..." : "Update"}
         </button>
-        <Link className="bg-green-700  text-sky-50 text-center text-lg p-3 rounded-lg uppercase hover:opacity-95" to="/create-problem">Create a problem</Link>
+        <Link
+          className="bg-green-700  text-sky-50 text-center text-lg p-3 rounded-lg uppercase hover:opacity-95"
+          to="/create-problem"
+        >
+          Create a problem
+        </Link>
       </form>
       <div className="flex justify-between items-center mt-3">
         <span
@@ -202,6 +224,41 @@ export default function Profile() {
       <p className="text-green-700 mt-3">
         {updateSuccess ? "Profile updated successfully" : ""}
       </p>
+      <button
+        onClick={handleShowProblems}
+        className="text-green-700 cursor-pointer w-full text-lg"
+      >
+        Show problems authored by You
+      </button>
+      <p className="text-red-700 mt-3">
+        {showProblemsError ? "Error showing problems" : ""}
+      </p>
+      {userProblems.length > 0 && (
+        <div>
+          <h1 className="text-2xl font-semibold  text-center my-5">Your Problems</h1>
+          {userProblems.map((problem) => (
+          <div
+            key={problem._id}
+            className="border p-2 rounded-lg my-3 flex justify-between items-center"
+          >
+            <Link
+              to={`/problem/${problem._id}`}
+              className="text-center font-semibold text-lg"
+            >
+              <p>{problem.title}</p>
+            </Link>
+            <div className="flex flex-col gap-2 items-center">
+              <button className=" text-red-700  px-3  cursor-pointer hover:bg-red-700 hover:text-white">
+                Delete
+              </button>
+              <button className=" text-grey-300  px-3  cursor-pointer hover:bg-green-500 hover:text-white">
+                Edit
+              </button>
+            </div>
+                     </div>
+         ))}
+        </div>
+      )}
     </div>
   );
 }
