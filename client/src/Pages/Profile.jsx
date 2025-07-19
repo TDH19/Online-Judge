@@ -146,16 +146,17 @@ export default function Profile() {
         method: "DELETE",
       });
       const data = await res.json();
-      if(data.success === false){
+      if (data.success === false) {
         console.log(data.message);
         return;
       }
-      setUserProblems((prev) => prev.filter((problem) => problem._id !== Problemid));
-      
-    }catch(error){
+      setUserProblems((prev) =>
+        prev.filter((problem) => problem._id !== Problemid)
+      );
+    } catch (error) {
       console.log(error.message);
     }
-  }
+  };
 
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -252,28 +253,35 @@ export default function Profile() {
       </p>
       {userProblems.length > 0 && (
         <div>
-          <h1 className="text-2xl font-semibold  text-center my-5">Your Problems</h1>
+          <h1 className="text-2xl font-semibold  text-center my-5">
+            Your Problems
+          </h1>
           {userProblems.map((problem) => (
-          <div
-            key={problem._id}
-            className="border p-2 rounded-lg my-3 flex justify-between items-center"
-          >
-            <Link
-              to={`/problem/${problem._id}`}
-              className="text-center font-semibold text-lg"
+            <div
+              key={problem._id}
+              className="border p-2 rounded-lg my-3 flex justify-between items-center"
             >
-              <p>{problem.title}</p>
-            </Link>
-            <div className="flex flex-col gap-2 items-center">
-              <button onClick={() => handleProblemDelete(problem._id)} className=" text-red-700  px-3  cursor-pointer hover:bg-red-700 hover:text-white">
-                Delete
-              </button>
-              <button className=" text-grey-300  px-3  cursor-pointer hover:bg-green-500 hover:text-white">
-                Edit
-              </button>
+              <Link
+                to={`/problem/${problem._id}`}
+                className="text-center font-semibold text-lg"
+              >
+                <p>{problem.title}</p>
+              </Link>
+              <div className="flex flex-col gap-2 items-center">
+                <button
+                  onClick={() => handleProblemDelete(problem._id)}
+                  className=" text-red-700  px-3  cursor-pointer hover:bg-red-700 hover:text-white"
+                >
+                  Delete
+                </button>
+                <Link to={`/update-problem/${problem._id}`}>
+                  <button className=" text-grey-300  px-3  cursor-pointer hover:bg-green-500 hover:text-white">
+                    Edit
+                  </button>
+                </Link>
+              </div>
             </div>
-                     </div>
-         ))}
+          ))}
         </div>
       )}
     </div>

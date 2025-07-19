@@ -42,3 +42,15 @@ export const updateProblem = async (req,res,next) => {
     next(error);
   }
 }
+
+export const getProblem = async (req,res,next) => {
+  try {
+    const problem = await Problem.findById(req.params.id);
+    if(!problem){
+     return next(errorHandler(404,"Problem not found"));
+    }
+    return res.status(200).json({problem});
+  } catch (error) {
+    next(error);
+  }
+}
