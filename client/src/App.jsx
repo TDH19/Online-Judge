@@ -8,6 +8,7 @@ import Header from "./Components/Header";
 import PrivateRoute from "./Components/PrivateRoute.jsx";
 import CreateProblem from "./Pages/Create-Problem.jsx";
 import UpdateProblem from "./Pages/Update-problem.jsx";
+import Problems from "./Pages/Problems.jsx";
 
 export default function App() {
   return (
@@ -18,11 +19,13 @@ export default function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/problems" element={<Problems />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/create-problem" element={<CreateProblem />} />
           <Route path="/update-problem/:problemId" element={<UpdateProblem />} />
         </Route>
+        
       </Routes>
     </BrowserRouter>
   );

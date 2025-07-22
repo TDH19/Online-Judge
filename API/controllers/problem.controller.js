@@ -54,3 +54,12 @@ export const getProblem = async (req,res,next) => {
     next(error);
   }
 }
+
+export const getAllProblems = async (req,res,next) => {
+  try {
+    const problems = await Problem.find();
+    return res.status(200).json({problems});
+  } catch (error) {
+    next(error);
+  }
+}
