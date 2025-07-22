@@ -34,7 +34,7 @@ export default function Problems() {
           {problems.map((problem) => (
             <tr key={problem.id}>
               <td className="py-2 px-4 border-2 border-gray-300 text-center">
-                <Link to={`/problems/${problem.id}`}
+                <Link to={`/problems/${problem._id}`}
                   className="text-gray-900 hover:text-emerald-500 font-semibold"
                 >
                   {problem.title}

@@ -9,6 +9,7 @@ import PrivateRoute from "./Components/PrivateRoute.jsx";
 import CreateProblem from "./Pages/Create-Problem.jsx";
 import UpdateProblem from "./Pages/Update-problem.jsx";
 import Problems from "./Pages/Problems.jsx";
+import ProblemID from "./Pages/ProblemID.jsx";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/create-problem" element={<CreateProblem />} />
           <Route path="/update-problem/:problemId" element={<UpdateProblem />} />
         </Route>
+        <Route path="/problems/:problemId" element={<ProblemID />} />
         
       </Routes>
     </BrowserRouter>
