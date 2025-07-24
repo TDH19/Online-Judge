@@ -11,7 +11,10 @@ export default defineConfig({
         target: 'http://localhost:3000',
         secure: false,
       },
-      
+      '/run' : {
+        target: 'http://localhost:8000',
+        secure: false,
+      },
     },
   },
 });

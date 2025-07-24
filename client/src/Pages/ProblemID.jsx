@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
+import EditorComponent from "../Components/EditorComponent.jsx";
+
 export default function ProblemID() {
   const params = useParams();
   const problemId = params.problemId;
@@ -25,9 +27,9 @@ export default function ProblemID() {
   }, [problemId]);
   console.log(problem);
   return (
-    <div className="ml-20 mr-20 mt-10 shadow-lg p-4 rounded-lg border-gray-300">
+    <div className="ml-20 mr-20 mt-10 ">
       {problem && (
-        <div>
+        <div className="shadow-lg p-4 rounded-lg border-gray-300">
           <h1 className="text-2xl font-semibold text-center mb-4">
             {problem.title}
           </h1>
@@ -70,6 +72,9 @@ export default function ProblemID() {
           </p>
         </div>
       )}
+      <div className="  rounded-lg border-gray-300">
+        <EditorComponent />
+      </div>
       
     </div>
   );
