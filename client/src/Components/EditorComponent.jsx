@@ -1,7 +1,13 @@
 import React, { useRef, useState } from "react";
 import Editor from "@monaco-editor/react";
-
-export default function EditorComponent() {
+import { set } from "mongoose";
+import { useSelector } from "react-redux";
+export default function EditorComponent({ problem }) {
+  const [verdict, setVerdict] = useState("");
+  const verdicts = [];
+  const [userSampleOutput, setUserSampleOutput] = useState("");
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const [nullUserError, setnullUserError] = useState(false);
   const editorRef = useRef(null);
   const [code, setCode] = useState("");
   const [language, setLanguage] = useState("C++");
@@ -26,34 +32,59 @@ export default function EditorComponent() {
     setShowDropdown(false);
   };
 
- const handleCodeSubmit = async () => {
-  try {
-    const res = await fetch('/run',{
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        language: languageMap[language],
-        code: code,
-      })
-    });
-    const OutputData = await res.json();
-    console.log(OutputData);
-    setOutputData(OutputData);
-  } catch (error) {
-    console.log(error);
-  }
- }
+  const handleCodeSubmit = async () => {
+    if (!currentUser) {
+      setnullUserError(true);
+      return;
+    }
+    try {
+      setnullUserError(false);
+      for (const testCase of problem.testCases) {
+        const res = await fetch("/run", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            language: languageMap[language],
+            code: code,
+            input: testCase.input,
+          }),
+        });
+        const testData = await res.json();
+        console.log(testData);
+        const normalizedExpected = testCase.expectedOutput.trim();
+        const normalizedActual = testData.output.trim();
+
+        if (normalizedActual === normalizedExpected) {
+          verdicts.push("Accepted");
+          
+        } else {
+          verdicts.push("Wrong Answer");
+          
+        }
+      }
+      for (let i = 0; i < verdicts.length; i++) {
+        if (verdicts[i] === "Wrong Answer") {
+          setVerdict("Wrong Answer for test case " + (i + 1));
+          break;
+        } else {
+          setVerdict("Accepted");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="max-w-3xl mx-auto">
       <div className="shadow-lg p-2 mt-2 rounded-lg border-gray-300 flex flex-row items-center justify-between ">
         <div className="flex flex-row items-center">
-          <p className="text-gray-900 text-xl font">Choose your language : </p>
+          <p className="text-gray-900 text-sm font">Choose your language : </p>
           <button
             onClick={() => setShowDropdown(!showDropdown)}
-            className="bg-emerald-600 text-white px-6 py-2 rounded-md shadow hover:bg-emerald-700 transition ml-3"
+            className="bg-emerald-600 text-white px-4 py-1 rounded-md shadow hover:bg-emerald-700 transition ml-3 text-sm"
           >
             {language}
           </button>
@@ -74,7 +105,7 @@ export default function EditorComponent() {
       </div>
       <div className="shadow-lg p-2 mt-2rounded-lg border-gray-300">
         <Editor
-          height="50vh"
+          height="30vh"
           language={languageMap[language]}
           value={code}
           onChange={(value) => setCode(value)}
@@ -90,16 +121,31 @@ export default function EditorComponent() {
           }}
         />
       </div>
-      
-        {OutputData && (
-          <div className="shadow-lg p-2 mt-2 rounded-lg border-gray-300">
-            
-            <p className="text-gray-900 text-xl font">{OutputData.output}</p>
-          </div>
-        )}
-      
+
+      {OutputData && (
+        <div className="shadow-lg p-2 mt-2 rounded-lg border-gray-300">
+          <p className="text-gray-900 text-xl font">{OutputData.output}</p>
+        </div>
+      )}
+      {nullUserError && (
+        <div className="text-red-500 text-center mt-2">
+          You need to sign in first
+        </div>
+      )}
+      {verdict && (
+        <div className="text-gray-900 text-sm font text-center mt-2 shadow-lg p-2 rounded-lg border-gray-300">
+          {verdict !== "Accepted" ? (
+            <p className="text-red-500">{verdict}</p>
+          ) : (
+            <p className="text-green-500">{verdict}</p>
+          )}
+        </div>
+      )}
       <div className="flex justify-center items-center shadow-lg p-2 mt-2 rounded-lg border-gray-300 mb-10">
-        <button onClick={handleCodeSubmit} className="bg-gradient-to-r from-emerald-500 to-emerald-700 text-white px-6 py-2 rounded-md shadow hover:opacity-80 transition ml-3">
+        <button
+          onClick={handleCodeSubmit}
+          className="bg-gradient-to-r from-emerald-500 to-emerald-700 text-white px-3 py-1 rounded-md shadow hover:opacity-80 transition ml-3"
+        >
           Submit
         </button>
       </div>

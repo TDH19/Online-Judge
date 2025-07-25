@@ -35,12 +35,7 @@ export default function ProblemID() {
           </h1>
           <div className="mb-4">
             <ul className="flex flex-row gap-4 justify-center">
-              <Link
-                to={`/problems/${problem._id}/submit`}
-                className="text-gray-900 text-sm font-semibold hover:bg-emerald-300 p-1 rounded-md"
-              >
-                Submit
-              </Link>
+              
               <Link
                 to={`/problems/${problem._id}/submissions`}
                 className="text-gray-900 text-sm font-semibold hover:bg-emerald-300 p-1 rounded-md"
@@ -73,7 +68,7 @@ export default function ProblemID() {
         </div>
       )}
       <div className="  rounded-lg border-gray-300">
-        <EditorComponent />
+        {problem && <EditorComponent problem={problem} />}
       </div>
       
     </div>

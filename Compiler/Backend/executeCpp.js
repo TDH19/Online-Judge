@@ -12,7 +12,7 @@ if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath, { recursive: true });
 }
 
-const executeCpp = async (filePath) => {
+const executeCpp = async (filePath , inputFilePath) => {
     const jobId = path.basename(filePath).split(".")[0];
     const outputFileName = `${jobId}.exe`;
     const outPath = path.join(outputPath, outputFileName);
@@ -24,7 +24,9 @@ const executeCpp = async (filePath) => {
     // Step 1: Compile with flags to force console entry point
     const compileCommand = `g++  "${filePath}" -o "${outPath}"  `;
     // Step 2: Run (using cmd /c for Windows compatibility)
-    const runCommand = `cmd /c "${outPath}"`;
+    const runCommand = inputFilePath
+    ? `cmd /c "${outPath}" < "${inputFilePath}"`
+    : `cmd /c "${outPath}"`;
 
     return new Promise((resolve, reject) => {
         exec(compileCommand, (compileError, compileStdout, compileStderr) => {
