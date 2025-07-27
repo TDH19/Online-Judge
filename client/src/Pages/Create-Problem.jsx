@@ -13,7 +13,7 @@ export default function CreateProblem() {
     sampleOutput: "",
     difficulty: "",
     category: "",
-    testCases: [], // <-- added test cases array
+    testCases: [], 
   });
 
   const [testCase, setTestCase] = useState({ input: "", expectedOutput: "" });
