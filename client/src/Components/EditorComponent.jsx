@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import Editor from "@monaco-editor/react";
-import { set } from "mongoose";
+
 import { useSelector } from "react-redux";
 export default function EditorComponent({ problem }) {
   const [verdict, setVerdict] = useState("");
@@ -40,7 +40,7 @@ export default function EditorComponent({ problem }) {
     try {
       setnullUserError(false);
       for (const testCase of problem.testCases) {
-        const res = await fetch("/run", {
+        const res = await fetch("/api/run", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

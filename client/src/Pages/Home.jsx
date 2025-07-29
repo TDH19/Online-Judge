@@ -49,26 +49,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div>
-            <div className="w-full h-full bg-black mr-10 ">
-            <div className="bg-gray-900 rounded-lg p-6 shadow-2xl">
-                  <div className="flex items-center space-x-2 mb-4">
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  </div>
-                  <div className="font-mono text-sm ">
-                    <div className="text-purple-400">def</div>
-                    <div className="text-blue-400 ml-4">solve_problem():</div>
-                    <div className="text-gray-300 ml-8">{"# Your solution here"}</div>
-                    <div className="text-green-400 ml-8">return optimal_answer</div>
-                    <div className="text-gray-500 mt-4">{"> Status: Accepted ✓"}</div>
-                    <div className="text-gray-500">{"> Runtime: 0.1s"}</div>
-                    <div className="text-gray-500">{"> Memory: 14.2MB"}</div>
-                  </div>
-                </div>
-            </div>
-          </div>
+          
         </div>
       </section>
     </div>

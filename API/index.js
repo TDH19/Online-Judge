@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import { dot } from 'node:test/reporters';
+
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
 import problemRouter from './routes/problem.route.js';
@@ -9,6 +9,8 @@ import cookieParser from 'cookie-parser';
 
 
 dotenv.config();
+
+const PORT = process.env.PORT || 3000;
 
 mongoose.connect(process.env.MONGO).then(() => {
   console.log('Connected to MongoDB successfully!!');
@@ -22,7 +24,7 @@ app.use(express.json()); // Middleware to parse JSON bodies
 
 app.use(cookieParser());
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log('Server is running on port 3000!!');
   
 });
@@ -44,4 +46,20 @@ app.use((error,req,res,next) => {
         success:false,
         statusCode,
         message, });
+});
+
+app.post('/api/run', async (req, res) => {
+  try {
+    const response = await fetch(`${process.env.Compiler}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req.body)
+    });
+
+    const data = await response.json();
+    res.json(data); // send response back to frontend
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ err });
+  }
 });
