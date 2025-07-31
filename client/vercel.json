@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://online-judge-d4zx.onrender.com/api/:path*"
+    }
+  ]
+}
+
+
