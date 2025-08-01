@@ -53,15 +53,13 @@ export default function EditorComponent({ problem }) {
         });
         const testData = await res.json();
         console.log(testData);
-        const normalizedExpected = testCase.expectedOutput.trim();
-        const normalizedActual = testData.output.trim();
+        const normalizedExpected = (testCase.expectedOutput || "").trim();
+        const normalizedActual = (testData.output || "").trim();
 
         if (normalizedActual === normalizedExpected) {
           verdicts.push("Accepted");
-          
         } else {
           verdicts.push("Wrong Answer");
-          
         }
       }
       for (let i = 0; i < verdicts.length; i++) {
