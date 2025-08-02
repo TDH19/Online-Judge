@@ -9,11 +9,12 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-app.listen(8000, () => {
+app.listen(8000, '0.0.0.0' , () => {
   console.log("Server is running on port 8000!!!");
 });
 
 app.post("/run", async (req, res) => {
+  console.log("BODY RECEIVED:", req.body);
   const { language = "cpp", code , input } = req.body;
   if (code === undefined) {
     return res.status(400).json({

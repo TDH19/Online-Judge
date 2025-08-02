@@ -2,7 +2,6 @@ import fs from "fs";
 import path from "path";
 import { exec } from "child_process";
 import { fileURLToPath } from "url";
-import { v4 } from "uuid";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,34 +11,30 @@ if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath, { recursive: true });
 }
 
-const executeCpp = async (filePath , inputFilePath) => {
+const executeCpp = async (filePath, inputFilePath) => {
     const jobId = path.basename(filePath).split(".")[0];
-    const outputFileName = `${jobId}.exe`;
+    const outputFileName = `${jobId}${process.platform === "win32" ? ".exe" : ".out"}`;
     const outPath = path.join(outputPath, outputFileName);
 
     if (!fs.existsSync(filePath)) {
         throw new Error(`Source file does not exist: ${filePath}`);
     }
 
-    // Step 1: Compile with flags to force console entry point
-    const compileCommand = `g++  "${filePath}" -o "${outPath}"  `;
-    // Step 2: Run (using cmd /c for Windows compatibility)
+    const compileCommand = `g++ "${filePath}" -o "${outPath}"`;
+    const isWindows = process.platform === "win32";
+
     const runCommand = inputFilePath
-    ? `cmd /c "${outPath}" < "${inputFilePath}"`
-    : `cmd /c "${outPath}"`;
+        ? `${isWindows ? outPath : `"${outPath}"`} < "${inputFilePath}"`
+        : `${isWindows ? outPath : `"${outPath}"`}`;
 
     return new Promise((resolve, reject) => {
-        exec(compileCommand, (compileError, compileStdout, compileStderr) => {
+        exec(compileCommand, (compileError, _, compileStderr) => {
             if (compileError) {
-                console.log(compileError);
-                console.log(compileStderr);
                 return reject({ error: compileError, stderr: compileStderr });
             }
-            // Only run if compilation succeeded
+
             exec(runCommand, (runError, runStdout, runStderr) => {
                 if (runError) {
-                    console.log(runError);
-                    console.log(runStderr);
                     return reject({ error: runError, stderr: runStderr });
                 }
                 resolve(runStdout);
